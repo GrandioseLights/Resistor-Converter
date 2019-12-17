@@ -1,5 +1,8 @@
-def colour(band):   
-    band = band.split()
+def colourTOnum(band):
+    try:
+        band = band.split()
+    except:
+        pass
     band1 = band[0]
     band2 = band[1]
     band3 = band[2]
@@ -18,7 +21,7 @@ def colour(band):
         tens = 5
     elif band1 == 'blue':
         tens = 6
-    elif band1 == 'violet':
+    elif band1 == 'violet' or band1 == 'purple':
         tens = 7
     elif band1 == 'grey':
         tens = 8
@@ -39,46 +42,51 @@ def colour(band):
         ones = 5
     elif band2 == 'blue':
         ones = 6
-    elif band2 == 'violet':
+    elif band2 == 'violet' or band2 == 'purple':
         ones = 7
     elif band2 == 'grey':
         ones = 8
     elif band2 == 'white':
         ones = 9
+
+    base = int(str(tens) + str(ones))
         
     if band3 == 'black':
-        multiplier = 1
+        resistance = str(base) + " Ω"
     elif band3 == 'brown':
-        multiplier = 10
+        resistance = str(1 * base) + " Ω"
     elif band3 == 'red':
-        multiplier = 100
+        resistance = str(10 * base) + " Ω"
     elif band3 == 'orange':
-        multiplier = 1000
+        resistance = str(base) + "K Ω"
     elif band3 == 'yellow':
-        multiplier = 10000
+        resistance = str(1 * base) + "K Ω"
     elif band3 == 'green':
-        multiplier = 100000
+        resistance = str(10 * base) + "K Ω"
     elif band3 == 'blue':
-        multiplier = 1000000
-    elif band3 == 'violet':
-        multiplier = 10000000
+        resistance = str(base) + "M Ω"
+    elif band3 == 'violet' or band3 == 'purple':
+        resistance = str(1 * base) + "M Ω"
     elif band3 == 'grey':
-        multiplier = 100000000
+        resistance = str(10 * base) + "M Ω"
     elif band3 == 'white':
-        multiplier = 1000000000
+        resistance = str(base) + "G Ω"
     elif band3 == 'gold':
-        multiplier = 0.1
+        resistance = str(0.1 * base) + " Ω"
     elif band3 == 'silver':
-        multiplier = 0.01
-        
-    resistance = int(str(tens) + str(ones)) * multiplier
+        resistance = str(0.01 * base) + " Ω"
+
     print(resistance)
     return
 
-def number(num):
+def numTOcolour(num):
     tens = int(num[0])
-    ones = int(num[1])
     multiplier = len(num)
+    if multiplier <= 1:
+        ones = tens
+        tens = 0
+    else:
+        ones = int(num[1])
 
     if tens == 0:
         band1 = 'black'
@@ -95,11 +103,13 @@ def number(num):
     elif tens == 6:
         band1 = 'blue'
     elif tens == 7:
-        band1  = 'violet'
+        band1 = 'violet'
     elif tens == 8:
         band1 = 'grey'
     elif tens == 9:
         band1 = 'white'
+    else:
+        band1 = 'black'
 
     if ones == 0:
         band2 = 'black'
@@ -121,47 +131,39 @@ def number(num):
         band2 = 'grey'
     elif ones == 9:
         band2 = 'white'
-
-    if multiplier == 2:
-        band2= 'black'
+        
+    if multiplier == 1:
+        band3 = 'black'
+    elif multiplier == 2:
+        band3 = 'brown'
     elif multiplier == 3:
-        band3= 'brown'
+        band3 = 'red'
     elif multiplier == 4:
-        band3= 'red'
+        band3 = 'orange'
     elif multiplier == 5:
-        band3= 'orange'
+        band3 = 'yellow'
     elif multiplier == 6:
-        band3= 'yellow'
+        band3 = 'green'
     elif multiplier == 7:
-        band3= 'green'
+        band3 = 'blue'
     elif multiplier == 8:
-        band3= 'blue'
+        band3 = 'violet'
     elif multiplier == 9:
-        band3= 'violet'
+        band3 = 'grey'
     elif multiplier == 10:
-        band3= 'grey'
-    elif multiplier == 11:
-        band3= 'white'
+        band3 = 'white'
+    else:
+        band3 = 'black'
 
-    print(tens)
-    print(ones)
-    print(multiplier)
-    print(band1)
-    print(band2)
-    print(band3)
+    print(band1, band2, band3)
     return
 
 while True:
-
     a = input()
     try:
-        int(a)
-        number(a)
-    except:
         try:
-            colour(a)
+            numTOcolour(a)
         except:
-            b = input()
-            c = input()
-            combo = a, b, c
-            colour(combo)
+            colourTOnum(a)
+    except:
+        print("For colour, enter: <Colour 1> <Colour 2> <Colour 3>\nFor Ohms, enter: <Whole integer>")
